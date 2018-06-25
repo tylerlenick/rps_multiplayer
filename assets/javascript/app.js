@@ -18,19 +18,52 @@
   var playerOneName = "";
   var playerTwoName = "";
 
-  //Functions
   
+//Any changes to the players database
+database.ref("/players/").on("value", function(snapshot) {
+
+  //check is playerOne exists in the database and update the page and js accordiingly
+  if (snapshot.child("playerOne").exists()) {
+
+    playerOne = snapshot.val().playerOne;
+    playerOneName = playerOne.name;
+    $("#player-one-name").text(playerOneName);
+
+  } else {
+
+    playerOne = {};
+    playerOneName = "";
+
+    $("#player-one-name").text("");
+  }
+
+  //check if playerTwo exists in the database and update the page and js accordinly
+  if (snapshot.child("playerTwo").exists()) {
+
+    playerTwo = snapshot.val().playerTwo;
+    playerTwoName = playerTwo.name;
+    $("#player-two-name").text(playerTwoName);
+
+  } else {
+
+    playerTwo = {};
+    playerTwoName = "";
+
+    $("#player-one-name").text("");
+  }
+});
+
 
 //On-click add name
-$("#name-submit").on("click", function(){
+$("#name-submit").on("click", function() {
     
     event.preventDefault();
-
+    
     //Chec to make sure there isnt a blank input, and that both player objects are empty
-    if ( ($("#nameInput").val().trim() !== "") && !(playerOne && playerTwo) ) {
+    if  ($("#nameInput").val().trim() !== "") {
 
       //Check if playerOne objects is Null
-      if (playerOne === {}) {
+      if (jQuery.isEmptyObject(playerOne)) {
 
         playerOneName = $("#nameInput").val();
         //set playerOne object
@@ -39,14 +72,30 @@ $("#name-submit").on("click", function(){
           wins: 0,
           losses: 0,
           choice: ""
-        };
+         };
 
         database.ref().child("/players/playerOne").set(playerOne);
-        console.log(playerOne);
 
+        $("#player-one-name").text(playerOneName);
+
+      } else if (jQuery.isEmptyObject(playerTwo)) {
+
+        playerTwoName = $("#nameInput").val();
+        //set playerTwo object
+        playerTwo = {
+          name: playerTwoName,
+          wins: 0,
+          losses: 0,
+          choice: ""
+         };
+
+         database.ref().child("/players/playerTwo").set(playerTwo);
+
+         $("#player-two-name").text(playerTwoName);
       }
+    
     }
-   
+    
 });
 
 
@@ -66,3 +115,5 @@ $("#name-submit").on("click", function(){
     //else if playerOne: paper and playerTwo: rock. playOneWins++/Update wins/go to reset state
     //else if playerOne: scissors and playerTwo: paper. playOneWins++/Update wins/go to reset state
     //else if playerOne: scissors and playerTwo: rock. playerTwoWins++Update wins text/go to reset state
+
+

@@ -29,7 +29,7 @@
                         <label>Name:</label>
                         <input type="text" class="form-control" id="nameInput" aria-describedby="emailHelp" placeholder="Enter name"> 
                     </div>
-                    <button type="button" class="btn btn-primary" id="name-submit">Submit</button>
+                    <button type="button" class="btn btn-primary text-center" id="name-submit">Submit</button>
                 </form>
             </div>
 
@@ -50,16 +50,32 @@
 
         <div class="row">
 
-            <div class="col-4">
+            <div class="col-4 text-center">
+                    <h2 class="name-tag" id="player-one-name"></h2></br>
+                    <h4 class="status-area" id="player-two-status"></h4></br>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary">Rock</button>
+                    <button type="button" class="btn btn-secondary">Paper</button>
+                    <button type="button" class="btn btn-secondary">Scissors</button>
+                </div>
 
             </div>
 
-            <div class="col-4">
-                
+            <div class="col-4 text-center">
+                <br/>
+                <br/>
+                <br/>
+                <h2 id="game-state">Waiting for players to join...</h2>
             </div>
 
-            <div class="col-4">
-
+            <div class="col-4 text-center">
+                    <h2 class="name-tag" id="player-two-name"></h2></br>
+                    <h4 class="status-area" id="player-one-status"></h4></br>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary">Rock</button>
+                    <button type="button" class="btn btn-secondary">Paper</button>
+                    <button type="button" class="btn btn-secondary">Scissors</button>
+                </div>
             </div>
 
         </div>

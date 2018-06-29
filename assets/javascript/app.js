@@ -31,6 +31,7 @@ database.ref("/players/").on("value", function(snapshot) {
 
   } else {
 
+    $("#game-state").text("Waiting for players to join...");
     playerOne = {};
     playerOneName = "";
 
@@ -46,10 +47,29 @@ database.ref("/players/").on("value", function(snapshot) {
 
   } else {
 
+    $("#game-state").text("Waiting for players to join...");
     playerTwo = {};
     playerTwoName = "";
 
     $("#player-one-name").text("");
+  }
+
+  if (snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists()) {
+    //Check in both players have values for their choice.
+    if (playerOne.choice === "" && playerTwo.choice === "") {
+
+      $("#game-state").text("Player one's turn");
+
+    } else if (playerOne.choice != "" && playerTwo.choice === "") {
+
+      $("#game-state").text("Player two's turn");
+    
+    } else {
+      
+
+
+    } 
+
   }
 });
 
@@ -99,10 +119,40 @@ $("#name-submit").on("click", function() {
 });
 
 
+//When RPS button is clicked.
+$(".player-rps-btn").on("click", function(){
 
-  //If playerOne is empty, assign the user to playerOne
-  //Else if playerOne isnt empty but playerTwo is, assign player to playerTwo
-  //Else, alert saying the game is full.
+  event.preventDefault();
+  console.log("button clicked");
+
+  if (playerOne != {} && playerTwo != {}) {
+
+    if (playerOne.choice === "" && playerTwo.choice === "") {
+
+      console.log("push to player one");
+      //push choice to player one
+      playerOne.choice = $(this).val();
+      console.log(playerOne.choice);
+      database.ref().child("/players/playerOne/choice/").set(playerOne.choice);
+      
+
+      } else if (playerOne.choice != "" && playerTwo.choice === "") {
+
+        console.log("push to player two");
+        //push choice to player two
+        playerTwo.choice = $(this).val();
+        database.ref().child("/players/playerTwo/choice/").set(playerTwo.choice);
+      }
+
+  } else {
+
+    console.log("no players bitch");
+    $("#game-state").text("Waiting for players to join");
+  }
+
+});
+
+
 
 //On-click for ROCK PAPER SCISSORS
 

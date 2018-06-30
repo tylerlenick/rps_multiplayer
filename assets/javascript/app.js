@@ -18,10 +18,92 @@
   var playerOneName = "";
   var playerTwoName = "";
 
+  function updateTrackers() {
+    $("#player-one-tracker").text("Wins:" + playerOne.wins + " " + "Losses:" + playerOne.losses);
+    $("#player-two-tracker").text("Wins:" + playerTwo.wins + " " + "Losses:" + playerTwo.losses);
+  }
+
+  function choiceCompare() {
+
+    if (playerOne.choice === playerTwo.choice) {
+      $("#game-result").text(playerOneName + " chose " + playerOne.choice + ", " + playerTwoName + " chose " + playerTwo.choice + ", the game is a tie!");
+      console.log("the is a tie");
+      database.ref().child("/players/playerOne/choice").set("");
+      database.ref().child("/players/playerTwo/choice").set("");
+
+    
+    } else if (playerOne.choice === "r" && playerTwo.choice === "s") {
+      $("#game-result").text(playerOneName + " chose " + playerOne.choice + ", " + playerTwoName + " chose " + playerTwo.choice + ", " + playerOneName + " wins!");
+    
+      database.ref().child("/players/playerOne/wins").set(playerOne.wins + 1);
+      database.ref().child("/players/playerTwo/losses").set(playerTwo.losses + 1);
+      
+      database.ref().child("/players/playerOne/choice").set("");
+      database.ref().child("/players/playerTwo/choice").set("");
+
+     
+
+    } else if (playerOne.choice === "r" && playerTwo.choice === "p") {
+      $("#game-result").text(playerOneName + " chose " + playerOne.choice + ", " + playerTwoName + " chose " + playerTwo.choice + ", " + playerTwoName + " wins!");
+     
+      database.ref().child("/players/playerTwo/wins").set(playerTwo.wins + 1);
+      database.ref().child("/players/playerOne/losses").set(playerOne.losses + 1);
+      
+      database.ref().child("/players/playerOne/choice").set("");
+      database.ref().child("/players/playerTwo/choice").set("");
+
+    } else if (playerOne.choice === "s" && playerTwo.choice === "r") {
+      $("#game-result").text(playerOneName + " chose " + playerOne.choice + ", " + playerTwoName + " chose " + playerTwo.choice + ", " + playerTwoName + " wins!");
+     
+      database.ref().child("/players/playerTwo/wins").set(playerTwo.wins + 1);
+      database.ref().child("/players/playerOne/losses").set(playerOne.losses + 1);
+      
+      database.ref().child("/players/playerOne/choice").set("");
+      database.ref().child("/players/playerTwo/choice").set("");
+
+    
+      
+    } else if (playerOne.choice === "s" && playerTwo.choice === "p") {
+      $("#game-result").text(playerOneName + " chose " + playerOne.choice + ", " + playerTwoName + " chose " + playerTwo.choice + ", " + playerOneName + " wins!");
+
+      database.ref().child("/players/playerOne/wins").set(playerOne.wins + 1);
+      database.ref().child("/players/playerTwo/losses").set(playerTwo.losses + 1);
+      
+      database.ref().child("/players/playerOne/choice").set("");
+      database.ref().child("/players/playerTwo/choice").set("");
+
+
+      
+    } else if (playerOne.choice === "p" && playerTwo.choice === "r") {
+      $("#game-result").text(playerOneName + " chose " + playerOne.choice + ", " + playerTwoName + " chose " + playerTwo.choice + ", " + playerOneName + " wins!");
+
+      database.ref().child("/players/playerOne/wins").set(playerOne.wins + 1);
+      database.ref().child("/players/playerTwo/losses").set(playerTwo.losses + 1);
+      
+      database.ref().child("/players/playerOne/choice").set("");
+      database.ref().child("/players/playerTwo/choice").set("");
+
+    
+
+      
+    } else if (playerOne.choice === "p" && playerTwo.choice === "s") {
+      $("#game-result").text(playerOneName + " chose " + playerOne.choice + ", " + playerTwoName + " chose " + playerTwo.choice + ", " + playerTwoName + " wins!");
+     
+      database.ref().child("/players/playerTwo/wins").set(playerTwo.wins + 1);
+      database.ref().child("/players/playerOne/losses").set(playerOne.losses + 1);
+      
+      database.ref().child("/players/playerOne/choice").set("");
+      database.ref().child("/players/playerTwo/choice").set("");
+      
+      
+    }
+    
+  };
   
 //Any changes to the players database
 database.ref("/players/").on("value", function(snapshot) {
 
+  
   //check is playerOne exists in the database and update the page and js accordiingly
   if (snapshot.child("playerOne").exists()) {
 
@@ -64,13 +146,13 @@ database.ref("/players/").on("value", function(snapshot) {
 
       $("#game-state").text("Player two's turn");
     
-    } else {
-      
-
-
     } 
 
-  }
+    updateTrackers();
+  };
+
+  
+  
 });
 
 
@@ -136,13 +218,18 @@ $(".player-rps-btn").on("click", function(){
       database.ref().child("/players/playerOne/choice/").set(playerOne.choice);
       
 
-      } else if (playerOne.choice != "" && playerTwo.choice === "") {
+    } else if (playerOne.choice != "" && playerTwo.choice === "") {
 
-        console.log("push to player two");
-        //push choice to player two
-        playerTwo.choice = $(this).val();
-        database.ref().child("/players/playerTwo/choice/").set(playerTwo.choice);
-      }
+      console.log("push to player two");
+      //push choice to player two
+      playerTwo.choice = $(this).val();
+      database.ref().child("/players/playerTwo/choice/").set(playerTwo.choice);
+
+    } else {
+
+      choiceCompare();
+
+    }
 
   } else {
 

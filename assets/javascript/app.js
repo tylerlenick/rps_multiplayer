@@ -192,6 +192,7 @@ $("#name-submit").on("click", function() {
          };
 
          database.ref().child("/players/playerTwo").set(playerTwo);
+      
 
          $("#player-two-name").text(playerTwoName);
       }
@@ -233,7 +234,7 @@ $(".player-rps-btn").on("click", function(){
 
   } else {
 
-    console.log("no players bitch");
+   
     $("#game-state").text("Waiting for players to join");
   }
 
@@ -241,16 +242,5 @@ $(".player-rps-btn").on("click", function(){
 
 
 
-//On-click for ROCK PAPER SCISSORS
-
-  //If other players selection not null, run game logic..
-
-    //If playerOne and playTwo selection are the same. Game is a tie.
-    //else if playerOne: rock and playerTwo: scissors. playOneWins++/Update wins/go to reset state
-    //else if playerOne: rock and playerTwo: paper. playTwoWins++/Update wins text/go to reset state
-    //else if playerOne: paper and playerTwo: scissors. playerTwoWins++Update wins text/go to reset state
-    //else if playerOne: paper and playerTwo: rock. playOneWins++/Update wins/go to reset state
-    //else if playerOne: scissors and playerTwo: paper. playOneWins++/Update wins/go to reset state
-    //else if playerOne: scissors and playerTwo: rock. playerTwoWins++Update wins text/go to reset state
 
 
